@@ -81,7 +81,9 @@ namespace ImgBrowseCopy
                 if (img.Width < MinWidth || img.Height < MinHeight) continue;
 
                 LastImages.Push(CurrentFile);
+                var old = pictureBox1.Image;
                 pictureBox1.Image = img;
+                if(old != null) old.Dispose();
                 break;
             }
         }
