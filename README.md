@@ -10,4 +10,5 @@ Arg 4: min height [default=0]
 
 Usage:
 Enter: copy from source folder to destination folder
-Space: next image
+Space or right: next image
+Left: last image

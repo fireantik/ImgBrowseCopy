@@ -14,7 +14,7 @@ namespace ImgBrowseCopy
     public partial class Form1 : Form
     {
         DirectoryInfo SourceDir, DestinationDir;
-        Stack<FileInfo> ImagesLeft;
+        Stack<FileInfo> ImagesLeft, LastImages = new Stack<FileInfo>();
         FileInfo CurrentFile;
         int MinWidth, MinHeight;
 
@@ -37,8 +37,15 @@ namespace ImgBrowseCopy
                 CurrentFile.CopyTo(Path.Combine(DestinationDir.FullName, CurrentFile.Name));
                 NextImage();
             }
-            else if (e.KeyCode == Keys.Space)
+            else if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Right)
             {
+                NextImage();
+            }
+
+            else if (e.KeyCode == Keys.Left)
+            {
+                if (LastImages.Any()) ImagesLeft.Push(LastImages.Pop());
+                if (LastImages.Any()) ImagesLeft.Push(LastImages.Pop());
                 NextImage();
             }
         }
@@ -73,6 +80,7 @@ namespace ImgBrowseCopy
 
                 if (img.Width < MinWidth || img.Height < MinHeight) continue;
 
+                LastImages.Push(CurrentFile);
                 pictureBox1.Image = img;
                 break;
             }
