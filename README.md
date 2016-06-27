@@ -1,0 +1,1 @@
+Browses images in folder A, when you hit enter - image is copied to folder B, when you hit spacebar - next image in queue is displayed.
