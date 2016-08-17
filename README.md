@@ -19,3 +19,5 @@ Right: Select next image
 Left: Select previous image
 Enter: Copy image from source to destination
 ```
+
+Download: https://github.com/fireantik/ImgBrowseCopy/releases/
