@@ -16,7 +16,8 @@ namespace ImgBrowseCopy
         DirectoryInfo SourceDir, DestinationDir;
         Stack<FileInfo> ImagesLeft, LastImages = new Stack<FileInfo>();
         FileInfo CurrentFile;
-        int MinWidth, MinHeight;
+        int MinWidth, MinHeight, NImages;
+        int CurImgN = 0;
 
         public Form1(DirectoryInfo sourceDir, DirectoryInfo destinationDir, int minWidth, int minHeight)
         {
@@ -26,6 +27,7 @@ namespace ImgBrowseCopy
             MinHeight = minHeight;
 
             ImagesLeft = new Stack<FileInfo>(sourceDir.GetFiles());
+            NImages = ImagesLeft.Count;
 
             InitializeComponent();
         }
@@ -37,7 +39,7 @@ namespace ImgBrowseCopy
                 CurrentFile.CopyTo(Path.Combine(DestinationDir.FullName, CurrentFile.Name));
                 NextImage();
             }
-            else if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Right)
+            else if (e.KeyCode == Keys.Right)
             {
                 NextImage();
             }
@@ -61,12 +63,13 @@ namespace ImgBrowseCopy
             {
                 if (!ImagesLeft.Any())
                 {
-                    MessageBox.Show("All done");
+                    Console.WriteLine("All done");
                     Close();
                     break;
                 }
 
                 CurrentFile = ImagesLeft.Pop();
+                CurImgN++;
                 Image img;
                 try
                 {
@@ -77,6 +80,8 @@ namespace ImgBrowseCopy
                     Console.WriteLine(e);
                     continue;
                 }
+
+                this.Text = string.Format("ImgBrowseCopy - '{0}' - {1}/{2} - {3:0.##}%", CurrentFile.Name, CurImgN, NImages, CurImgN * 1.0 / NImages * 100);
 
                 if (img.Width < MinWidth || img.Height < MinHeight) continue;
 
